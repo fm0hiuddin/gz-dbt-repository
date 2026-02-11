@@ -7,6 +7,7 @@ select
     m.margin, 
     m.revenue,
     m.purchase_price,
+    m.purchase_cost,
     sh.shipping_fee,
     sh.logcost,
     sh.ship_cost     
