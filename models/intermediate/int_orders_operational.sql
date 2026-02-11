@@ -4,6 +4,8 @@ select
     ROUND(m.margin+sh.shipping_fee-sh.logcost-sh.ship_cost,2) as operational_margin,
     m.quantity,
     m.margin, 
+    m.revenue,
+    m.purchase_price,
     sh.shipping_fee,
     sh.logcost,
     sh.ship_cost     
