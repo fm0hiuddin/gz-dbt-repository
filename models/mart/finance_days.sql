@@ -1,5 +1,3 @@
-{{ config(materialized= "table") }}
-
 select
     date_date,
     COUNT(orders_id) as tot_transactions,
