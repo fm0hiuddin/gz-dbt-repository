@@ -9,10 +9,7 @@ sources:
          - name: sales #Renaming as an alias
            identifier: raw_gz_sales #What is the exact name of the table in  BQ
            description: sales of greewneez / we have one row per product_id found in each order_id
-           #freshness testing
-           loaded_at_field: "CAST(... AS TIMESTAMP)"
-           freshness:
-            warn_after: {count: 90, period: day}
+          
            columns:
              - name: "(orders_id || '-' || pdt_id)"
                description: primary key of the table
@@ -50,6 +47,45 @@ sources:
                tests:
                  - unique
                  - not_null
+         - name: adwords
+           identifier: raw_gz_adwords
+           description: adwords campaign metrics including ad costs, clicks, impressions
+           columns:
+             - name: "(date_date || '-' || campaign_key)"
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+         - name: bing
+           identifier: raw_gz_bing
+           description: bing campaign metrics including ad costs, clicks, impressions
+           columns:
+             - name: "(date_date || '-' || campaign_key)"
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+
+         - name: criteo
+           identifier: raw_gz_criteo
+           description: campaign metrics including ad costs, clicks, impressions
+           columns:
+             - name: "(date_date || '-' || campaign_key)"
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+
+         - name: facebook
+           identifier: raw_gz_facebook
+           description: campaign metrics including ad costs, clicks, impressions
+           columns:
+             - name: "(date_date || '-' || campaign_key)"
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+
 
 models:
         - name: int_sales_margin #dbt path
@@ -172,4 +208,88 @@ models:
                tests:
                  - not_null
 
-        
+        - name: int_campaigns
+          description: merged table of all campaigns
+          columns:
+             - name: "(date_date || '-' || campaign_key)"
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+             - name: date_date
+               tests:
+                 - not_null
+             - name: paid_source
+               tests:
+                 - not_null
+             - name: campaign_key
+               tests:
+                 - not_null
+             - name: campaign_name
+               tests:
+                 - not_null
+             - name: ads_cost
+               tests:
+                 - not_null
+             - name: impression
+               tests:
+                 - not_null
+             - name: click
+               tests:
+                 - not_null
+
+        - name: int_campaigns_day
+          description: daily ads metrics
+          columns:
+             - name: date_date
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+             - name: day_ads_cost
+               tests:
+                 - not_null
+             - name: day_impression
+               tests:
+                 - not_null
+             - name: day_click
+               tests:
+                 - not_null
+
+
+        - name: finance_campaigns_day
+          description: daily finance metrics including ads costs
+          columns:
+             - name: date_date
+               description: primary key of the table
+               tests:
+                 - unique
+                 - not_null
+             
+             - name: average_basket
+               tests:
+                 - not_null
+             - name: op_margin
+               tests:
+                 - not_null
+             - name: tot_quantity
+               tests:
+                 - not_null
+             - name: tot_revenue
+               tests:
+                 - not_null
+             - name: tot_purchase_cost
+               tests:
+                 - not_null
+             - name: margin
+               tests:
+                 - not_null       
+             - name: tot_shipping_fee
+               tests:
+                 - not_null
+             - name: tot_logcost
+               tests:
+                 - not_null
+             - name: tot_shipcost
+               tests:
+                 - not_null       
