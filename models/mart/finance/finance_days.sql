@@ -7,6 +7,7 @@ select
     ROUND(SUM(purchase_cost),2) as tot_purchase_cost,
     ROUND(SUM(shipping_fee),2) as tot_shipping_fee,
     ROUND(SUM(logcost),2) as tot_logcost,
+    ROUND(SUM(ship_cost),2) as tot_shipcost,
     ROUND(SUM(quantity),2) as tot_quantity
 from {{ref("int_orders_operational")}}
 Group by date_date
